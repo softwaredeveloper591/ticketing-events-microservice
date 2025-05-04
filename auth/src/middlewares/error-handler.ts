@@ -3,7 +3,7 @@ import { CustomError } from '../errors/custom-error';
 
 
 export const errorHandler = (
-  err: CustomError,
+  err: Error,
   req: Request,
   res: Response,
   next: NextFunction
@@ -12,5 +12,5 @@ export const errorHandler = (
     return res.status(err.statusCode).send({ errors: err.serializeErrors() });
   }
 
-  res.status(500).send({ errors: [{ message: 'Something went wrong' }] });
+  res.status(500).send({ errors: [{ message: err.message }] });
 };

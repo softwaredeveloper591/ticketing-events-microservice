@@ -29,6 +29,16 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     }
+}, {
+    toJSON: {
+        transform(doc, ret) {
+            const transformed = {
+            id: ret._id,
+            email: ret.email,
+            };
+            return transformed;
+        }
+    }
 });
 
 userSchema.pre('save', async function(done) {
