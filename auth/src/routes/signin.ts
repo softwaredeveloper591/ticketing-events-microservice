@@ -1,8 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { body} from 'express-validator';
-import { validateRequest } from '../middlewares/validate-request';
+import { validateRequest, BadRequestError } from '@esticket/common';
 import { User } from '../models/user';
-import { BadRequestError } from '../errors/bad-request-error';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -27,7 +26,7 @@ router.post('/api/users/signin', [
     }
     // Check if the password is correct
 
-    const passwordsMatch = bcrypt.compare(password, user.password);
+    const passwordsMatch =  await bcrypt.compare(password, user.password);
     if (!passwordsMatch) {
       throw new BadRequestError("Invalid credentials");
     }
